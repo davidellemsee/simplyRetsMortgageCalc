@@ -21,6 +21,7 @@ function srRegisterWidgets() {
     register_widget('srAgentListingWidget');
     register_widget('srRandomListingWidget');
     register_widget('srSearchFormWidget');
+    register_widget('srMortgageCalculatorWidget');
 }
 
 
@@ -84,6 +85,7 @@ class srFeaturedListingWidget extends WP_Widget {
                 />
             </p>
         <?php }
+
     }
 
     /** front end widget render -- @see WP_Widget::widget */
@@ -468,4 +470,83 @@ HTML;
 
     }
 
+}
+
+class srMortgageCalculatorWidget extends WP_Widget{
+    /** DONT FORGET TO REGISTER WIDGET ON THE TOP */
+
+    /** constructor */
+    function __construct() {
+        parent::__construct(false, "SimplyRETS Search Widget");
+    }
+
+    function mortgageCalculator (){
+        echo "<link rel='stylesheet' type='text/css' href='css/mortgageCalc.css' />";  
+        echo "<script src='mortgageCalc.js' />";  
+        
+        $calculatorMarkup = <<<HTML
+
+        <div id="mortgage-calc">
+        <div class="left-calc">
+            <h1>mortgage calculator</h1>
+
+            <div class="price-field">
+            <h4>home price</h4>
+            <input id="homePrice" type="number" class="text-box" placeholder="$16,900,000" oninput="mortgageCalc()">
+            </div>
+
+            <div class="downpayment-field">
+            <h4>down payment</h4>
+            <input id="downPayment" type="number" class="text-box" placeholder="$3,800,000" oninput="mortgageCalc()">
+            </div>
+
+            <div class="small-boxes"> 
+            <div class="term-field">
+                <h4>term</h4>
+                <input id="term" type="number" class="text-box" placeholder="30 years" oninput="mortgageCalc()">
+            </div>
+
+            <div class="interest-field">
+                <h4>interest rate</h4>
+                <input id="interestRate" type="number" class="text-box" placeholder="3.875%" oninput="mortgageCalc()">
+            </div>  
+            </div>
+
+        </div>
+
+        <div class="right-calc">
+            <h4>your monthly payment</h4>
+            <div class="payment-amount">$85,123</div>
+            <div class="fixed-loan-term">30 year fixed loan term</div>
+
+            <div class="property-taxes">
+            <h3>property taxes</h3>
+            <div class="tax-amount"><p>$17,604</p></div>
+            </div>
+
+            <div class="principleAndInterest">
+            <h3>principle & interest</h3>
+            <div class="principle-interest">$63,576</div>
+            </div>
+
+            <div class="homeowners-insurance">
+            <h3>homeowners insurance</h3>
+            <div class="insurance">$3,943</div>
+            </div>
+
+        </div>
+        </div>
+
+HTML;
+
+
+    // populate content
+    $cont .= $calculatorMarkup;
+
+    $cont .= $after_widget;
+    echo $cont;
+
+    }
+
+    
 }
